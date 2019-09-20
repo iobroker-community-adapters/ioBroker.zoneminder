@@ -12,7 +12,7 @@
 
 ## zoneminder adapter for ioBroker
 
-Connection to your Zoneminder
+Connection to your Zoneminder.
 
 ## Developer manual
 This section is intended for the developer. It can be deleted later
