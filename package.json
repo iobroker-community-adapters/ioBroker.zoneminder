@@ -1,6 +1,6 @@
 {
   "name": "iobroker.zoneminder",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Connection to your Zoneminder",
   "author": {
     "name": "MeisterTR",
@@ -17,7 +17,9 @@
     "url": "https://github.com/MeisterTR/ioBroker.zoneminder"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^1.0.3"
+    "@iobroker/adapter-core": "^1.0.3",
+    "mqtt": "^3.0.0",
+    "request-promise": "^4.2.4"
   },
   "devDependencies": {
     "@iobroker/testing": "^1.2.5",

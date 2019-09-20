@@ -1,97 +1,101 @@
 {
-    "common": {
-        "name": "zoneminder",
-        "version": "0.0.1",
-        "news": {
-            "0.0.1": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
-            }
-        },
-        "title": "Zoneminder",
-        "titleLang": {
-            "en": "Zoneminder",
-            "de": "Zoneminder",
-            "ru": "ZoneMinder",
-            "pt": "Zoneminder",
-            "nl": "Zoneminder",
-            "fr": "Zoneminder",
-            "it": "Zoneminder",
-            "es": "Zoneminder",
-            "pl": "Zoneminder",
-            "zh-cn": "Zoneminder"
-        },
-        "desc": {
-            "en": "Connection to your Zoneminder",
-            "de": "Verbindung zu Ihrem Zoneminder",
-            "ru": "Подключение к вашему Zoneminder",
-            "pt": "Conexão com seu Zoneminder",
-            "nl": "Verbinding met uw Zoneminder",
-            "fr": "Connexion à votre Zoneminder",
-            "it": "Connessione a Zoneminder",
-            "es": "Conexión a su Zoneminder",
-            "pl": "Połączenie z twoim Zoneminderem",
-            "zh-cn": "连接到您的Zoneminder"
-        },
-        "authors": [
-            "MeisterTR <meistertr.smarthome@gmail.com>"
-        ],
-        "keywords": [
-            "zoneminder",
-            "security cam"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "main.js",
-        "icon": "zoneminder.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/MeisterTR/ioBroker.zoneminder/master/admin/zoneminder.png",
-        "readme": "https://github.com/MeisterTR/ioBroker.zoneminder/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "alarm",
-        "compact": true,
-        "materialize": true,
-        "dependencies": [
-            {
-                "js-controller": ">=1.4.2"
-            }
-        ]
+  "common": {
+    "name": "zoneminder",
+    "version": "0.1.0",
+    "news": {
+      "0.1.0": {
+        "en": "first running version",
+        "de": "erste laufende Version",
+        "ru": "первая версия",
+        "pt": "primeira versão em execução",
+        "nl": "eerste lopende versie",
+        "fr": "première version en cours d'exécution",
+        "it": "prima versione in esecuzione",
+        "es": "primera versión en ejecución",
+        "pl": "pierwsza uruchomiona wersja",
+        "zh-cn": "第一个运行版本"
+      }
     },
-    "native": {
-        "option1": true,
-        "option2": "42"
+    "title": "Zoneminder",
+    "titleLang": {
+      "en": "Zoneminder",
+      "de": "Zoneminder",
+      "ru": "ZoneMinder",
+      "pt": "Zoneminder",
+      "nl": "Zoneminder",
+      "fr": "Zoneminder",
+      "it": "Zoneminder",
+      "es": "Zoneminder",
+      "pl": "Zoneminder",
+      "zh-cn": "Zoneminder"
     },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
-    ]
+    "desc": {
+      "en": "Connection to your Zoneminder",
+      "de": "Verbindung zu Ihrem Zoneminder",
+      "ru": "Подключение к вашему Zoneminder",
+      "pt": "Conexão com seu Zoneminder",
+      "nl": "Verbinding met uw Zoneminder",
+      "fr": "Connexion à votre Zoneminder",
+      "it": "Connessione a Zoneminder",
+      "es": "Conexión a su Zoneminder",
+      "pl": "Połączenie z twoim Zoneminderem",
+      "zh-cn": "连接到您的Zoneminder"
+    },
+    "authors": [
+      "MeisterTR <meistertr.smarthome@gmail.com>"
+    ],
+    "keywords": [
+      "zoneminder",
+      "security cam"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "zoneminder.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.zoneminder/master/admin/zoneminder.png",
+    "readme": "https://github.com/iobroker-community-adapters/ioBroker.zoneminder/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "alarm",
+    "compact": true,
+    "materialize": true,
+    "dependencies": [
+      {
+        "js-controller": ">=1.4.2"
+      }
+    ],
+    "installedFrom": "https://github.com/iobroker-community-adapters/ioBroker.zoneminder/tarball/77ac865fd1bc8d60c4ed0704eaf137034078e4e2"
+  },
+  "native": {
+    "host": "http://zoneminder/zm",
+    "user": "admin",
+    "password": "admin",
+    "pollingMon": 5,
+    "pollingMonState": 1
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }

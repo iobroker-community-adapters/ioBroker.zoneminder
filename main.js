@@ -1,15 +1,8 @@
 'use strict';
 
-/*
- * Created with @iobroker/create-adapter v1.16.0
- */
-
-// The adapter-core module gives you access to the core ioBroker functions
-// you need to create an adapter
 const utils = require('@iobroker/adapter-core');
 
-// Load your modules here, e.g.:
-// const fs = require("fs");
+const Zoneminder = require(__dirname + '/lib/api');
 
 /**
  * The adapter instance
@@ -40,10 +33,10 @@ function startAdapter(options) {
             }
         },
 
-        // is called if a subscribed object changes
+        // is called if a subscribedobject changes
         objectChange: (id, obj) => {
             if (obj) {
-                // The object was changed
+                // The object was changend
                 adapter.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
             } else {
                 // The object was deleted
@@ -81,18 +74,28 @@ function startAdapter(options) {
 function main() {
 
     // Reset the connection indicator during startup
-    this.setState('info.connection', false, true);
+    adapter.setState('info.connection', false, true);
 
     // The adapters config (in the instance object everything under the attribute "native") is accessible via
     // adapter.config:
     adapter.log.info('config option1: ' + adapter.config.option1);
     adapter.log.info('config option2: ' + adapter.config.option2);
 
-    /*
-        For every state in the system there has to be also an object of type state
-        Here a simple template for a boolean variable named "testVariable"
-        Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-    */
+    const zm = new Zoneminder({
+        user: adapter.config.user,
+        password: adapter.config.password,
+        host: adapter.config.host
+    },adapter);
+
+
+    zm.on('connect', monitors => {
+        adapter.log.debug('Connected');
+        adapter.setStateAsync('info.connection', {
+            val: true,
+            ack: true
+        });
+    });
+
     adapter.setObject('testVariable', {
         type: 'state',
         common: {
