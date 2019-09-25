@@ -14,16 +14,21 @@
 
 Connection to your Zoneminder.
 
-## Developer manual
-This section is intended for the developer. It can be deleted later
-
-### Getting started
+## Getting started
 Type in your host e.g. 'http://zoneminder/zm' unchanged user and password is 'admin' if you dont have any authentification do not change user or password.
 
 The device intervall is for checking new cameras and some basic information. The value is in seconds.
 The monitor intervall is for checking alerts it is also in seconds.
 
+### Zoneminder-Settings
+To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS in Settings
+
+![Logo](admin/auth_hash_ips.png)
+
 ## Changelog
+### 0.2.0
+* (MeisterTR) add info states
+* (MeisterTR) add camera-link with auth-key
 ### 0.1.0
 * (MeisterTR) First running version
 ### 0.0.1
