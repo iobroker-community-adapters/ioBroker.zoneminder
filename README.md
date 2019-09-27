@@ -26,9 +26,10 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
 ![Logo](admin/auth_hash_ips.png)
 
 ## Changelog
-### 0.2.0
+### 0.2.1
 * (MeisterTR) add info states
 * (MeisterTR) add camera-link with auth-key
+* (MeisterTR) cange video link
 ### 0.1.0
 * (MeisterTR) First running version
 ### 0.0.1
