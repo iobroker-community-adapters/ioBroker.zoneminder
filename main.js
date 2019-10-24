@@ -6,13 +6,33 @@ const Zoneminder = require(__dirname + '/lib/api');
 let requestInterval;
 let requestTimeout = null;
 
+
+const FUNCSTATES = {
+    0: 'None',
+    1: 'Monitor',
+    2: 'Modect',
+    3: 'Record',
+    4: 'Mocord',
+    5: 'Nodect'
+};
+
+const ZMEVENTPLACEHOLDER = {
+    "MonitorId": "0",
+    "EventId": "000",
+    "Name": "INIT",
+    "Cause": "INIT",
+    "VideoUrl": "",
+    "SnapUrl" : "",
+    "Date":null
+}
+
 let zm;
 /**
  * The adapter instance
  * @type {ioBroker.Adapter}
  */
 let adapter;
-
+let zmEvent = false;
 
 /**
  * Starts the adapter instance
@@ -50,9 +70,32 @@ function startAdapter(options) {
 
         // is called if a subscribed state changes
         stateChange: (id, state) => {
-            if (state) {
-                // The state was changed
-                // adapter.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+            if (state && !state.ack) {
+                let command = id.split('.').pop();
+                let camId = id.split('.')[2].split('_')[1];
+                adapter.log.info(camId + '__' + command + '___' + state);
+
+                if (command === 'Function') {
+                    zm.functionCange(camId, state.val, function (err, data) {
+                        adapter.log.debug('set State ' + JSON.stringify(data));
+                        if (data.message && data.message === 'Saved') {
+                            adapter.setState(id, state.val, true);
+                        }
+                    })
+                }
+                if (command === 'Enabled') {
+                    let pState = 0;
+                    if (state.val === true) pState = 1;
+
+                    zm.activeCange(camId, pState, function (err, data) {
+                        adapter.log.debug('set State ' + JSON.stringify(data));
+                        if (data.message && data.message === 'Saved') {
+                            adapter.setState(id, state.val, true);
+                        }
+                    })
+                }
+
+
             } else {
                 // The state was deleted
                 //adapter.log.info(`state ${id} deleted`);
@@ -74,16 +117,24 @@ function startAdapter(options) {
         // },
     }));
 }
+
 function set_monitors() {
     adapter.log.debug('SetStates');
     zm.monitors(function (err, monitorsjson) {
 
-        let monitors= monitorsjson.monitors
+        let monitors = monitorsjson.monitors
+
+        zm.saveVideo(594)
 
         monitors.forEach(function (monitor, index) {
             var _id = adapter.namespace + '.' + 'cam_' + monitor.Monitor.Id
 
             findState(_id + '.monitor', monitor.Monitor, (states) => {
+                states.forEach(function (element) {
+                    adapter.setState(element[0] + '.' + element[1], element[3], true);
+                });
+            });
+            findState(_id + '.info', monitor.Monitor_Status, (states) => {
                 states.forEach(function (element) {
                     adapter.setState(element[0] + '.' + element[1], element[3], true);
                 });
@@ -103,6 +154,15 @@ function create_monitors(monitors, callback) {
 
     let cam_ids = [];
 
+    //create States for zmEvent
+    adapter.createChannel('',"history");
+
+    findState(adapter.namespace + '.history.LastzmEvent', ZMEVENTPLACEHOLDER, (states) => {
+        states.forEach(function (element) {
+            _createState(element[0], element[1], element[2], element[3]);
+        });
+    });
+
     adapter.getForeignObjects(adapter.namespace + ".*", 'device', function (err, list) {
 
         monitors.forEach(function (monitor, index) {
@@ -111,7 +171,7 @@ function create_monitors(monitors, callback) {
 
             if (list[_id]) adapter.log.debug('monitor found in Objects')
 
-            if (!list[_id]) {
+            if (true) {
                 // create monitors
                 adapter.createDevice('cam_' + monitor.Monitor.Id, {
                     name: monitor.Monitor.Name
@@ -119,10 +179,41 @@ function create_monitors(monitors, callback) {
 
                 adapter.createChannel('cam_' + monitor.Monitor.Id, "info");
                 adapter.createChannel('cam_' + monitor.Monitor.Id, "monitor");
+                if (zmEvent) {
+                    adapter.createChannel('cam_' + monitor.Monitor.Id, "zmEvent");
+                }
+
 
                 for (var prop in monitor) {
                     adapter.log.debug('Monitor_' + index + " o." + prop + " = " + monitor[prop]);
                 }
+                //add control states for Monitor
+                adapter.setObjectNotExists(_id + '.monitor' + '.Function', {
+                    common: {
+                        name: 'function',
+                        role: 'value',
+                        write: true,
+                        read: true,
+                        type: 'number',
+                        desc: 'Select the function for the monitor',
+                        states: FUNCSTATES
+                    },
+                    type: 'state',
+                    native: {}
+                });
+                adapter.setObjectNotExists(_id + '.monitor' + '.Enabled', {
+                    common: {
+                        name: 'Enabled',
+                        type: 'boolean',
+                        role: 'switch',
+                        read: true,
+                        write: true,
+                        desc: 'Enable or disable the monitor'
+                    },
+                    type: 'state',
+                    native: {}
+                });
+
             }
 
             findState(_id + '.info', monitor.Monitor_Status, (states) => {
@@ -131,6 +222,11 @@ function create_monitors(monitors, callback) {
                 });
             });
             findState(_id + '.monitor', monitor.Monitor, (states) => {
+                states.forEach(function (element) {
+                    _createState(element[0], element[1], element[2], element[3]);
+                });
+            });
+            findState(_id + '.zmEvent', ZMEVENTPLACEHOLDER, (states) => {
                 states.forEach(function (element) {
                     _createState(element[0], element[1], element[2], element[3]);
                 });
@@ -165,7 +261,7 @@ function findState(sid, states, cb) {
 
     for (let key in states) {
         let value = states[key];
-        adapter.log.debug("search state" + key + ": " + value);
+        //adapter.log.debug("search state" + key + ": " + value);
 
         if (key === "ArchivedEventDiskSpace" || key === "MonthEventDiskSpace" || key === "WeekEventDiskSpace" || key === "DayEventDiskSpace" || key === "HourEventDiskSpace" || key === "TotalEventDiskSpace" || key === "used" || key === "total" || key === "avail") {
             result.push([sid, key, 'size', BtoMb(value)])
@@ -175,10 +271,29 @@ function findState(sid, states, cb) {
             result.push([sid, key, 'sizeb', value]);
         } else if (key === "cpu") {
             result.push([sid, key, 'level', parseInt(value * 10000) / 100]);
-        } else if (key === "Sequence" || key === "CaptureFPS" || key === "AnalysisFPS" || key === "CaptureBandwidth" || key === "MonitorId" || key === "MaxFPS" || key === "AlarmMaxFPS" || key === "ZoneCount" || key === "TotalEvents" || key === "HourEvents" || key === "DayEvents" || key === "WeekEvents" || key === "MonthEvents" || key === "ArchivedEvents") {
+        }else if (key === "Date") {
+            result.push([sid, key, 'date', Date.now()]);
+        } else if (key === "Sequence" || key === "CaptureFPS" || key === "AnalysisFPS" || key === "CaptureBandwidth" || key === "MonitorId" || key === "EventId" || key === "MaxFPS" || key === "AlarmMaxFPS" || key === "ZoneCount" || key === "TotalEvents" || key === "HourEvents" || key === "DayEvents" || key === "WeekEvents" || key === "MonthEvents" || key === "ArchivedEvents") {
             result.push([sid, key, 'default_num', value]);
-        } else if (key === "Function" || key === "Status" || key === 'camUrl') {
+        } else if (key === "Status" || key === 'camUrl' || key === 'Name' || key === 'Cause' || key === 'VideoUrl' || key === 'SnapUrl') {
             result.push([sid, key, 'text', value]);
+        }
+
+        // if Functionmode, change selectorstate
+        if (key === "Function") {
+            for (key in FUNCSTATES) {
+                if (FUNCSTATES[key] === value) {
+                    result.push([sid, "Function", null, key]);
+                }
+            }
+        }
+
+        if (key === "Enabled") {
+            if (value === 1 || value === '1') {
+                result.push([sid, "Enabled", null, true]); 
+            } else {
+                result.push([sid, "Enabled", null, false]);
+            }
         }
     }
     adapter.log.debug('found states:_' + JSON.stringify(result))
@@ -189,21 +304,55 @@ function main() {
 
     // Reset the connection indicator during startup
     adapter.setState('info.connection', false, true);
+    //adapter.config.zmEvent = true;
+
+    zmEvent = adapter.config.zmEvent;
 
     zm = new Zoneminder({
         user: adapter.config.user,
         password: adapter.config.password,
-        host: adapter.config.host
+        host: adapter.config.host,
+        zmEvent : adapter.config.zmEvent
     }, adapter);
 
 
     zm.on('connect', monitors => {
-        adapter.log.debug('Connected');
-        create_monitors(monitors.monitors)
+        adapter.log.debug('Connected to Api');
         adapter.setStateAsync('info.connection', {
             val: true,
             ack: true
         });
+        zm.monitors(function (err, monitorsjson) {
+            create_monitors(monitorsjson.monitors)
+        })
+    });
+
+    zm.on('alarm', data => {
+        adapter.log.debug('ALARM_' + JSON.stringify(data));
+        let event = data.events[0];
+        let _eid = adapter.namespace + '.' + 'cam_' + event.MonitorId +'.zmEvent';
+        let lastzm_id = adapter.namespace + '.history' +'.LastzmEvent'
+
+        let vid = zm.getVideoLink(event.EventId);
+        let snap = zm.getSnapLink(event.EventId);
+
+        adapter.log.debug('recivevid_ '+ vid)
+        adapter.setState(_eid +'.VideoUrl',vid, true);
+        adapter.setState(_eid +'.SnapUrl',snap, true);
+        adapter.setState(_eid +'.MonitorId',event.MonitorId, true);
+        adapter.setState(_eid +'.EventId',event.EventId, true);
+        adapter.setState(_eid +'.Name',event.Name, true);
+        adapter.setState(_eid +'.Cause',event.Cause, true);
+        adapter.setState(_eid +'.Date',Date.now(), true);
+
+        adapter.setState(lastzm_id +'.VideoUrl',vid, true);
+        adapter.setState(lastzm_id +'.SnapUrl',snap, true);
+        adapter.setState(lastzm_id +'.MonitorId',event.MonitorId, true);
+        adapter.setState(lastzm_id +'.EventId',event.EventId, true);
+        adapter.setState(lastzm_id +'.Name',event.Name, true);
+        adapter.setState(lastzm_id +'.Cause',event.Cause, true);
+        adapter.setState(lastzm_id +'.Date',Date.now(), true);
+
     });
 
     requestInterval = setInterval(set_monitors, adapter.config.pollingMon * 1000)
@@ -276,8 +425,12 @@ function sendRequest() {
 }
 
 function _createState(sid, name, type, val, callback) {
-    adapter.log.debug('create state: ' + name + ' val: ' + val);
+    //adapter.log.debug('create state: ' + name + ' val: ' + val);
     var state = type;
+    if (state === null) {
+        adapter.setState(sid + '.' + name, val, true);
+        return
+    }
     switch (state) {
         case 'time':
             adapter.setObjectNotExists(sid + '.' + name, {
@@ -367,6 +520,20 @@ function _createState(sid, name, type, val, callback) {
             }, adapter.setState(sid + '.' + name, val, true));
 
             break;
+            case 'date':
+                adapter.setObjectNotExists(sid + '.' + name, {
+                    common: {
+                        name: name,
+                        role: 'date',
+                        write: false,
+                        read: true,
+                        type: 'string'
+                    },
+                    type: 'state',
+                    native: {}
+                }, adapter.setState(sid + '.' + name, val, true));
+    
+                break;
         default:
 
     }

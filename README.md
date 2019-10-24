@@ -20,12 +20,18 @@ Type in your host e.g. 'http://zoneminder/zm' unchanged user and password is 'ad
 The device intervall is for checking new cameras and some basic information. The value is in seconds.
 The monitor intervall is for checking alerts it is also in seconds.
 
+If you want to get alert informations please install zmEventNotification to your zoneminder and enable it in the iobroker settings.
+
 ### Zoneminder-Settings
 To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS in Settings
 
 ![Logo](admin/auth_hash_ips.png)
 
 ## Changelog
+### 0.3.0
+* (MeisterTR) error fixes
+* (MeisterTR) add ZmEvents
+* (MeisterTR) Select moniorfunction and disable/enable monitor
 ### 0.2.1
 * (MeisterTR) add info states
 * (MeisterTR) add camera-link with auth-key
