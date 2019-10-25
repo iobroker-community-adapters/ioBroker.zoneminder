@@ -28,7 +28,7 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
 ![Logo](admin/auth_hash_ips.png)
 
 ## Changelog
-### 0.3.0
+### 0.3.1
 * (MeisterTR) error fixes
 * (MeisterTR) add ZmEvents
 * (MeisterTR) Select moniorfunction and disable/enable monitor

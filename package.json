@@ -1,12 +1,12 @@
 {
   "name": "iobroker.zoneminder",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Connection to your Zoneminder",
   "author": {
     "name": "MeisterTR",
     "email": "meistertr.smarthome@gmail.com"
   },
-  "homepage": "https://github.com/MeisterTR/ioBroker.zoneminder",
+  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.zoneminder",
   "license": "MIT",
   "keywords": [
     "zoneminder",
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/MeisterTR/ioBroker.zoneminder"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.zoneminder"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^1.0.3",
@@ -54,7 +54,7 @@
     "lint": "eslint"
   },
   "bugs": {
-    "url": "https://github.com/MeisterTR/ioBroker.zoneminder/issues"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.zoneminder/issues"
   },
   "readmeFilename": "README.md"
 }
