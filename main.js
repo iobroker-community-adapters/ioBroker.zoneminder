@@ -124,7 +124,7 @@ function set_monitors() {
 
         let monitors = monitorsjson.monitors
 
-        zm.saveVideo(594)
+        //Szm.saveVideo(594)
 
         monitors.forEach(function (monitor, index) {
             var _id = adapter.namespace + '.' + 'cam_' + monitor.Monitor.Id
@@ -191,7 +191,7 @@ function create_monitors(monitors, callback) {
                 adapter.setObjectNotExists(_id + '.monitor' + '.Function', {
                     common: {
                         name: 'function',
-                        role: 'value',
+                        role: 'state',
                         write: true,
                         read: true,
                         type: 'number',
@@ -360,68 +360,6 @@ function main() {
     // in this template all states changes inside the adapters namespace are subscribed
     adapter.subscribeStates('*');
 
-    /*
-        setState examples
-        you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-    */
-    // the variable testVariable is set to true as command (ack=false)
-    adapter.setState('testVariable', true);
-
-    // same thing, but the value is flagged "ack"
-    // ack should be always set to true if the value is received from or acknowledged from the target system
-    adapter.setState('testVariable', {
-        val: true,
-        ack: true
-    });
-
-    // same thing, but the state is deleted after 30s (getState will return null afterwards)
-    adapter.setState('testVariable', {
-        val: true,
-        ack: true,
-        expire: 30
-    });
-
-    // examples for the checkPassword/checkGroup functions
-    adapter.checkPassword('admin', 'iobroker', (res) => {
-        adapter.log.info('check user admin pw ioboker: ' + res);
-    });
-
-    adapter.checkGroup('admin', 'admin', (res) => {
-        adapter.log.info('check group user admin group admin: ' + res);
-    });
-}
-
-function sendRequest() {
-
-    requestTimeout = setTimeout(function () {
-        requestTimeout = null;
-        if (connected) {
-            connected = false;
-            adapter.log.debug('Disconnect');
-            adapter.setState('info.connection', false, true);
-        }
-    }, 3000);
-    if (finish) {
-        try {
-            proxmox.status(function (data) {
-
-                devices = data.data;
-                _setNodes(data.data);
-                adapter.log.debug("Devices: " + JSON.stringify(data));
-            });
-
-
-        } catch (e) {
-            adapter.log.warn('Cannot send request: ' + e);
-            clearTimeout(requestTimeout);
-            requestTimeout = null;
-            if (connected) {
-                connected = false;
-                adapter.log.debug('Disconnect');
-                adapter.setState('info.connection', false, true);
-            }
-        }
-    }
 }
 
 function _createState(sid, name, type, val, callback) {
