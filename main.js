@@ -50,6 +50,9 @@ function startAdapter(options) {
         // is called when adapter shuts down - callback has to be called under any circumstances!
         unload: (callback) => {
             try {
+                clearTimeout(requestInterval);
+                zm.websocketClose();
+
                 adapter.log.info('cleaned everything up...');
                 callback();
             } catch (e) {
@@ -57,7 +60,7 @@ function startAdapter(options) {
             }
         },
 
-        // is called if a subscribedobject changes
+        /* is called if a subscribedobject changes
         objectChange: (id, obj) => {
             if (obj) {
                 // The object was changend
@@ -67,6 +70,7 @@ function startAdapter(options) {
                 adapter.log.info(`object ${id} deleted`);
             }
         },
+        */
 
         // is called if a subscribed state changes
         stateChange: (id, state) => {
@@ -131,7 +135,7 @@ function set_monitors() {
 
             findState(_id + '.monitor', monitor.Monitor, (states) => {
                 states.forEach(function (element) {
-                    adapter.setState(element[0] + '.' + element[1], element[3], true);
+                    adapter.setStateChanged(element[0] + '.' + element[1], element[3], true);
                 });
             });
             findState(_id + '.info', monitor.Monitor_Status, (states) => {
@@ -145,6 +149,8 @@ function set_monitors() {
                 });
             });
         })
+
+        requestInterval= setTimeout(set_monitors, adapter.config.pollingMon * 1000)
     })
 
 }
@@ -326,6 +332,12 @@ function main() {
             create_monitors(monitorsjson.monitors)
         })
     });
+    zm.on('error', error => {
+        adapter.setStateAsync('info.connection', {
+            val: false,
+            ack: true
+        }); 
+    });
 
     zm.on('alarm', data => {
         adapter.log.debug('ALARM_' + JSON.stringify(data));
@@ -355,7 +367,7 @@ function main() {
 
     });
 
-    requestInterval = setInterval(set_monitors, adapter.config.pollingMon * 1000)
+    requestInterval = setTimeout(set_monitors, adapter.config.pollingMon * 1000);
 
     // in this template all states changes inside the adapters namespace are subscribed
     adapter.subscribeStates('*');

@@ -1,14 +1,16 @@
 ![Logo](admin/zoneminder.png)
 # ioBroker.zoneminder
+[![Number of Installations](http://iobroker.live/badges/zoneminder-installed.svg)](http://iobroker.live/badges/zoneminder-installed.svg)
+[![Stable version](http://iobroker.live/badges/zoneminder-stable.svg)](http://iobroker.live/badges/zoneminder-stable.svg)
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.zoneminder.svg)](https://www.npmjs.com/package/iobroker.zoneminder)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.zoneminder.svg)](https://www.npmjs.com/package/iobroker.zoneminder)
-[![Dependency Status](https://img.shields.io/david/MeisterTR/iobroker.zoneminder.svg)](https://david-dm.org/MeisterTR/iobroker.zoneminder)
-[![Known Vulnerabilities](https://snyk.io/test/github/MeisterTR/ioBroker.zoneminder/badge.svg)](https://snyk.io/test/github/MeisterTR/ioBroker.zoneminder)
+[![Dependency Status](https://img.shields.io/david/iobroker-community-adapters/iobroker.zoneminder.svg)](https://david-dm.org/iobroker-community-adapters/iobroker.zoneminder)
+
 
 [![NPM](https://nodei.co/npm/iobroker.zoneminder.png?downloads=true)](https://nodei.co/npm/iobroker.zoneminder/)
 
-**Tests:**: [![Travis-CI](http://img.shields.io/travis/MeisterTR/ioBroker.zoneminder/master.svg)](https://travis-ci.org/MeisterTR/ioBroker.zoneminder)
+**Tests:**: [![Travis-CI](http://img.shields.io/travis/iobroker-community-adapters/ioBroker.zoneminder/master.svg)](https://travis-ci.org/iobroker-community-adapters/ioBroker.zoneminder)
 
 ## zoneminder adapter for ioBroker
 
@@ -28,8 +30,8 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
 ![Logo](admin/auth_hash_ips.png)
 
 ## Changelog
-### 0.3.2
-* (MeisterTR) error fixes, fix login error
+### 0.3.3 (12.11.2019)
+* (MeisterTR) error fixes, fix login error, fixes for latest
 * (MeisterTR) add ZmEvents
 * (MeisterTR) Select moniorfunction and disable/enable monitor
 ### 0.2.1
