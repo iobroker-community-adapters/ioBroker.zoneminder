@@ -22,8 +22,8 @@ const ZMEVENTPLACEHOLDER = {
     "Name": "INIT",
     "Cause": "INIT",
     "VideoUrl": "",
-    "SnapUrl" : "",
-    "Date":null
+    "SnapUrl": "",
+    "Date": null
 }
 
 let zm;
@@ -150,7 +150,7 @@ function set_monitors() {
             });
         })
 
-        requestInterval= setTimeout(set_monitors, adapter.config.pollingMon * 1000)
+        requestInterval = setTimeout(set_monitors, adapter.config.pollingMon * 1000)
     })
 
 }
@@ -161,11 +161,11 @@ function create_monitors(monitors, callback) {
     let cam_ids = [];
 
     //create States for zmEvent
-    adapter.createChannel('',"history");
+    adapter.createChannel('', "history");
 
     findState(adapter.namespace + '.history.LastzmEvent', ZMEVENTPLACEHOLDER, (states) => {
         states.forEach(function (element) {
-            _createState(element[0], element[1], element[2], element[3]);
+            _createState(element[0], element[1], element[2]);
         });
     });
 
@@ -234,7 +234,7 @@ function create_monitors(monitors, callback) {
             });
             findState(_id + '.zmEvent', ZMEVENTPLACEHOLDER, (states) => {
                 states.forEach(function (element) {
-                    _createState(element[0], element[1], element[2], element[3]);
+                    _createState(element[0], element[1], element[2]);
                 });
             });
 
@@ -277,7 +277,7 @@ function findState(sid, states, cb) {
             result.push([sid, key, 'sizeb', value]);
         } else if (key === "cpu") {
             result.push([sid, key, 'level', parseInt(value * 10000) / 100]);
-        }else if (key === "Date") {
+        } else if (key === "Date") {
             result.push([sid, key, 'date', Date.now()]);
         } else if (key === "Sequence" || key === "CaptureFPS" || key === "AnalysisFPS" || key === "CaptureBandwidth" || key === "MonitorId" || key === "EventId" || key === "MaxFPS" || key === "AlarmMaxFPS" || key === "ZoneCount" || key === "TotalEvents" || key === "HourEvents" || key === "DayEvents" || key === "WeekEvents" || key === "MonthEvents" || key === "ArchivedEvents") {
             result.push([sid, key, 'default_num', value]);
@@ -296,7 +296,7 @@ function findState(sid, states, cb) {
 
         if (key === "Enabled") {
             if (value === 1 || value === '1') {
-                result.push([sid, "Enabled", null, true]); 
+                result.push([sid, "Enabled", null, true]);
             } else {
                 result.push([sid, "Enabled", null, false]);
             }
@@ -318,7 +318,7 @@ function main() {
         user: adapter.config.user,
         password: adapter.config.password,
         host: adapter.config.host,
-        zmEvent : adapter.config.zmEvent
+        zmEvent: adapter.config.zmEvent
     }, adapter);
 
 
@@ -336,34 +336,34 @@ function main() {
         adapter.setStateAsync('info.connection', {
             val: false,
             ack: true
-        }); 
+        });
     });
 
     zm.on('alarm', data => {
         adapter.log.debug('ALARM_' + JSON.stringify(data));
         let event = data.events[0];
-        let _eid = adapter.namespace + '.' + 'cam_' + event.MonitorId +'.zmEvent';
-        let lastzm_id = adapter.namespace + '.history' +'.LastzmEvent'
+        let _eid = adapter.namespace + '.' + 'cam_' + event.MonitorId + '.zmEvent';
+        let lastzm_id = adapter.namespace + '.history' + '.LastzmEvent'
 
         let vid = zm.getVideoLink(event.EventId);
         let snap = zm.getSnapLink(event.EventId);
 
-        adapter.log.debug('recivevid_ '+ vid)
-        adapter.setState(_eid +'.VideoUrl',vid, true);
-        adapter.setState(_eid +'.SnapUrl',snap, true);
-        adapter.setState(_eid +'.MonitorId',event.MonitorId, true);
-        adapter.setState(_eid +'.EventId',event.EventId, true);
-        adapter.setState(_eid +'.Name',event.Name, true);
-        adapter.setState(_eid +'.Cause',event.Cause, true);
-        adapter.setState(_eid +'.Date',Date.now(), true);
+        adapter.log.debug('recivevid_ ' + vid)
+        adapter.setState(_eid + '.VideoUrl', vid, true);
+        adapter.setState(_eid + '.SnapUrl', snap, true);
+        adapter.setState(_eid + '.MonitorId', event.MonitorId, true);
+        adapter.setState(_eid + '.EventId', event.EventId, true);
+        adapter.setState(_eid + '.Name', event.Name, true);
+        adapter.setState(_eid + '.Cause', event.Cause, true);
+        adapter.setState(_eid + '.Date', Date.now(), true);
 
-        adapter.setState(lastzm_id +'.VideoUrl',vid, true);
-        adapter.setState(lastzm_id +'.SnapUrl',snap, true);
-        adapter.setState(lastzm_id +'.MonitorId',event.MonitorId, true);
-        adapter.setState(lastzm_id +'.EventId',event.EventId, true);
-        adapter.setState(lastzm_id +'.Name',event.Name, true);
-        adapter.setState(lastzm_id +'.Cause',event.Cause, true);
-        adapter.setState(lastzm_id +'.Date',Date.now(), true);
+        adapter.setState(lastzm_id + '.VideoUrl', vid, true);
+        adapter.setState(lastzm_id + '.SnapUrl', snap, true);
+        adapter.setState(lastzm_id + '.MonitorId', event.MonitorId, true);
+        adapter.setState(lastzm_id + '.EventId', event.EventId, true);
+        adapter.setState(lastzm_id + '.Name', event.Name, true);
+        adapter.setState(lastzm_id + '.Cause', event.Cause, true);
+        adapter.setState(lastzm_id + '.Date', Date.now(), true);
 
     });
 
@@ -394,7 +394,9 @@ function _createState(sid, name, type, val, callback) {
                 },
                 type: 'state',
                 native: {}
-            }, adapter.setState(sid + '.' + name, val, true));
+            }, () => {
+                if (val) adapter.setState(sid + '.' + name, val, true)
+            });
 
             break;
         case 'size':
@@ -409,7 +411,9 @@ function _createState(sid, name, type, val, callback) {
                 },
                 type: 'state',
                 native: {}
-            }, adapter.setState(sid + '.' + name, val, true));
+            },() => {
+                if (val) adapter.setState(sid + '.' + name, val, true)
+            });
 
             break;
         case 'sizeb':
@@ -424,7 +428,9 @@ function _createState(sid, name, type, val, callback) {
                 },
                 type: 'state',
                 native: {}
-            }, adapter.setState(sid + '.' + name, val, true));
+            }, () => {
+                if (val) adapter.setState(sid + '.' + name, val, true)
+            });
 
             break;
         case 'level':
@@ -439,7 +445,9 @@ function _createState(sid, name, type, val, callback) {
                 },
                 type: 'state',
                 native: {}
-            }, adapter.setState(sid + '.' + name, val, true));
+            }, () => {
+                if (val) adapter.setState(sid + '.' + name, val, true)
+            });
 
             break;
         case 'default_num':
@@ -453,7 +461,9 @@ function _createState(sid, name, type, val, callback) {
                 },
                 type: 'state',
                 native: {}
-            }, adapter.setState(sid + '.' + name, val, true));
+            }, () => {
+                if (val) adapter.setState(sid + '.' + name, val, true)
+            });
 
             break;
         case 'text':
@@ -467,23 +477,27 @@ function _createState(sid, name, type, val, callback) {
                 },
                 type: 'state',
                 native: {}
-            }, adapter.setState(sid + '.' + name, val, true));
+            },() => {
+                if (val) adapter.setState(sid + '.' + name, val, true)
+            });
 
             break;
-            case 'date':
-                adapter.setObjectNotExists(sid + '.' + name, {
-                    common: {
-                        name: name,
-                        role: 'date',
-                        write: false,
-                        read: true,
-                        type: 'string'
-                    },
-                    type: 'state',
-                    native: {}
-                }, adapter.setState(sid + '.' + name, val, true));
-    
-                break;
+        case 'date':
+            adapter.setObjectNotExists(sid + '.' + name, {
+                common: {
+                    name: name,
+                    role: 'date',
+                    write: false,
+                    read: true,
+                    type: 'string'
+                },
+                type: 'state',
+                native: {}
+            }, () => {
+                if (val) adapter.setState(sid + '.' + name, val, true)
+            });
+
+            break;
         default:
 
     }
