@@ -1,2 +1,5 @@
 **/.eslintrc.js
 admin/words.js
+gulpfile.js
+lib/**
+main.js
