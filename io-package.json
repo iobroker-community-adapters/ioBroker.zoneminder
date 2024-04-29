@@ -16,7 +16,6 @@
         "zh-cn": "第一个运行版本"
       }
     },
-    "title": "Zoneminder",
     "titleLang": {
       "en": "Zoneminder",
       "de": "Zoneminder",
@@ -48,24 +47,31 @@
       "zoneminder",
       "security cam"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
-    "main": "main.js",
     "icon": "zoneminder.png",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.zoneminder/master/admin/zoneminder.png",
     "readme": "https://github.com/iobroker-community-adapters/ioBroker.zoneminder/blob/master/README.md",
     "loglevel": "info",
+    "tier": 2,
     "mode": "daemon",
     "type": "alarm",
     "compact": true,
     "materialize": true,
     "dependencies": [
       {
-        "js-controller": ">=1.4.2"
+        "js-controller": ">=5.0.19"
       }
     ],
-    "installedFrom": "https://github.com/iobroker-community-adapters/ioBroker.zoneminder/tarball/77ac865fd1bc8d60c4ed0704eaf137034078e4e2"
+    "globalDependencies": [
+      {
+        "admin": ">=6.13.16"
+      }
+    ]
   },
   "native": {
     "host": "http://zoneminder/zm",
