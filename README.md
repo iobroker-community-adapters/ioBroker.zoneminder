@@ -54,6 +54,8 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
 ### 0.0.1
 * (MeisterTR) initial release
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 MIT License
 
