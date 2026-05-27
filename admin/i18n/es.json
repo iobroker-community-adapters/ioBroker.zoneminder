@@ -1,0 +1,8 @@
+{
+  "Zoneminder host": "Host de Zoneminder",
+  "username": "nombre de usuario",
+  "password": "contraseña",
+  "Monitor interval": "Monitorear intervalo",
+  "device interval": "intervalo de dispositivo",
+  "Enable ZmEventServer": "Habilitar ZmEventServer"
+}

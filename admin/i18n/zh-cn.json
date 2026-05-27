@@ -1,0 +1,8 @@
+{
+  "Zoneminder host": "Zoneminder主机",
+  "username": "用户名",
+  "password": "密码",
+  "Monitor interval": "监控间隔",
+  "device interval": "设备间隔",
+  "Enable ZmEventServer": "启用 ZmEventServer"
+}

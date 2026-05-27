@@ -1,0 +1,8 @@
+{
+  "Zoneminder host": "Zoneminder gastheer",
+  "username": "gebruikersnaam",
+  "password": "wachtwoord",
+  "Monitor interval": "Monitor interval",
+  "device interval": "apparaatinterval",
+  "Enable ZmEventServer": "ZmEventServer inschakelen"
+}
