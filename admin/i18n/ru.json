@@ -1,11 +1,8 @@
 {
-  "zoneminder adapter settings": "Настройки адаптера для zoneminder",
-  "option1": "Опция 1",
-  "option2": "option2",
   "Zoneminder host": "Хозяин Zoneminder",
   "username": "имя пользователя",
   "password": "пароль",
-  "Monitor intervall": "Интервал монитора",
-  "device intervall": "Интервал устройства",
+  "Monitor interval": "Интервал монитора",
+  "device interval": "Интервал устройства",
   "Enable ZmEventServer": "Включить ZmEventServer"
 }

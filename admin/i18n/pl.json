@@ -1,11 +1,8 @@
 {
-  "zoneminder adapter settings": "Ustawienia adaptera dla zoneminder",
-  "option1": "opcja 1",
-  "option2": "Opcja 2",
   "Zoneminder host": "Gospodarz Zoneminder",
   "username": "Nazwa Użytkownika",
   "password": "hasło",
-  "Monitor intervall": "Monitoruj interwał",
-  "device intervall": "interwał urządzenia",
+  "Monitor interval": "Monitoruj interwał",
+  "device interval": "interwał urządzenia",
   "Enable ZmEventServer": "Włącz ZmEventServer"
 }
