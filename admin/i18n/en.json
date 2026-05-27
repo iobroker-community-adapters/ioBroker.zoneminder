@@ -1,0 +1,11 @@
+{
+  "zoneminder adapter settings": "Adapter settings for zoneminder",
+  "option1": "option1",
+  "option2": "option2",
+  "Zoneminder host": "Zoneminder host",
+  "username": "username",
+  "password": "password",
+  "Monitor intervall": "Monitor intervall in sec.",
+  "device intervall": "device intervall in sec.",
+  "Enable ZmEventServer": "Enable ZmEventServer"
+}

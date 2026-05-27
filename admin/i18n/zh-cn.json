@@ -1,0 +1,11 @@
+{
+  "zoneminder adapter settings": "zoneminder的适配器设置",
+  "option1": "选项1",
+  "option2": "选项2",
+  "Zoneminder host": "Zoneminder主机",
+  "username": "用户名",
+  "password": "密码",
+  "Monitor intervall": "监控intervall",
+  "device intervall": "设备间隔",
+  "Enable ZmEventServer": "启用 ZmEventServer"
+}
