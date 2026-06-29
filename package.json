@@ -17,7 +17,7 @@
     "url": "https://github.com/iobroker-community-adapters/ioBroker.zoneminder"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.1.4",
