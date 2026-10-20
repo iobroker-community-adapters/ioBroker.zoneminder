@@ -26,7 +26,8 @@
         "it": "prima versione in esecuzione",
         "es": "primera versión en ejecución",
         "pl": "pierwsza uruchomiona wersja",
-        "zh-cn": "第一个运行版本"
+        "zh-cn": "第一个运行版本",
+        "uk": "перша запущена версія"
       }
     },
     "titleLang": {
@@ -39,7 +40,8 @@
       "it": "Zoneminder",
       "es": "Zoneminder",
       "pl": "Zoneminder",
-      "zh-cn": "Zoneminder"
+      "zh-cn": "Zoneminder",
+      "uk": "Zoneminder"
     },
     "desc": {
       "en": "Connection to your Zoneminder",
@@ -51,7 +53,8 @@
       "it": "Connessione a Zoneminder",
       "es": "Conexión a su Zoneminder",
       "pl": "Połączenie z twoim Zoneminderem",
-      "zh-cn": "连接到您的Zoneminder"
+      "zh-cn": "连接到您的Zoneminder",
+      "uk": "Підключення до Zoneminder"
     },
     "authors": [
       "MeisterTR <meistertr.smarthome@gmail.com>",

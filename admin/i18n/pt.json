@@ -1,10 +1,10 @@
 {
-    "Zoneminder host": "Host do Zoneminder",
-    "e.g. http://zoneminder/zm": "p. ex. http://zoneminder/zm",
-    "Username": "Nome de usuário",
-    "Password": "Senha",
     "Device interval (sec.)": "Intervalo do dispositivo (seg.)",
-    "Monitor interval (sec.)": "Intervalo do monitor (seg.)",
     "Enable ZmEventServer": "Ativar ZmEventServer",
-    "Requires zmEventNotification on your ZoneMinder (wss://<host>:9000)": "Requer zmEventNotification no seu ZoneMinder (wss://<host>:9000)"
+    "Monitor interval (sec.)": "Intervalo do monitor (seg.)",
+    "Password": "Senha",
+    "Requires zmEventNotification on your ZoneMinder (wss://<host>:9000)": "Requer zmEventNotification no seu ZoneMinder (wss://<host>:9000)",
+    "Username": "Nome de usuário",
+    "Zoneminder host": "Host do Zoneminder",
+    "e.g. http://zoneminder/zm": "p. ex. http://zoneminder/zm"
 }

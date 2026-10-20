@@ -1,10 +1,10 @@
 {
-    "Zoneminder host": "Zoneminder主机",
-    "e.g. http://zoneminder/zm": "例如 http://zoneminder/zm",
-    "Username": "用户名",
-    "Password": "密码",
     "Device interval (sec.)": "设备间隔（秒）",
-    "Monitor interval (sec.)": "监视器间隔（秒）",
     "Enable ZmEventServer": "启用 ZmEventServer",
-    "Requires zmEventNotification on your ZoneMinder (wss://<host>:9000)": "需要在您的 ZoneMinder 上安装 zmEventNotification (wss://<host>:9000)"
+    "Monitor interval (sec.)": "监视器间隔（秒）",
+    "Password": "密码",
+    "Requires zmEventNotification on your ZoneMinder (wss://<host>:9000)": "需要在您的 ZoneMinder 上安装 zmEventNotification (wss://<host>:9000)",
+    "Username": "用户名",
+    "Zoneminder host": "Zoneminder主机",
+    "e.g. http://zoneminder/zm": "例如 http://zoneminder/zm"
 }

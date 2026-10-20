@@ -1,10 +1,10 @@
 {
-    "Zoneminder host": "Zoneminder-host",
-    "e.g. http://zoneminder/zm": "bijv. http://zoneminder/zm",
-    "Username": "Gebruikersnaam",
-    "Password": "Wachtwoord",
     "Device interval (sec.)": "Apparaatinterval (sec.)",
-    "Monitor interval (sec.)": "Monitorinterval (sec.)",
     "Enable ZmEventServer": "ZmEventServer inschakelen",
-    "Requires zmEventNotification on your ZoneMinder (wss://<host>:9000)": "Vereist zmEventNotification op uw ZoneMinder (wss://<host>:9000)"
+    "Monitor interval (sec.)": "Monitorinterval (sec.)",
+    "Password": "Wachtwoord",
+    "Requires zmEventNotification on your ZoneMinder (wss://<host>:9000)": "Vereist zmEventNotification op uw ZoneMinder (wss://<host>:9000)",
+    "Username": "Gebruikersnaam",
+    "Zoneminder host": "Zoneminder-host",
+    "e.g. http://zoneminder/zm": "bijv. http://zoneminder/zm"
 }
