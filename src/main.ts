@@ -165,12 +165,8 @@ class ZoneminderAdapter extends utils.Adapter {
     private async setMonitors(): Promise<void> {
         this.log.debug('SetStates');
         const json = await this.zm?.monitors();
-        if (!json) {
-            // the JS version did not reschedule in this case either
-            return;
-        }
 
-        for (const monitor of json.monitors) {
+        for (const monitor of json?.monitors ?? []) {
             const id = `${this.namespace}.cam_${monitor.Monitor.Id}`;
 
             for (const s of this.findState(`${id}.monitor`, monitor.Monitor)) {
@@ -309,7 +305,13 @@ class ZoneminderAdapter extends utils.Adapter {
             } else if (key === 'Date') {
                 result.push({ sid, name: key, kind: 'date', val: Date.now() });
             } else if (NUMBER_KEYS.includes(key)) {
-                result.push({ sid, name: key, kind: 'default_num', val: value });
+                // the API delivers numbers as strings
+                result.push({
+                    sid,
+                    name: key,
+                    kind: 'default_num',
+                    val: value === null || value === '' ? null : Number(value),
+                });
             } else if (TEXT_KEYS.includes(key)) {
                 result.push({ sid, name: key, kind: 'text', val: value });
             }
@@ -318,7 +320,7 @@ class ZoneminderAdapter extends utils.Adapter {
             if (key === 'Function') {
                 for (const [funcId, funcName] of Object.entries(FUNCSTATES)) {
                     if (funcName === value) {
-                        result.push({ sid, name: 'Function', kind: null, val: funcId });
+                        result.push({ sid, name: 'Function', kind: null, val: Number(funcId) });
                     }
                 }
             }

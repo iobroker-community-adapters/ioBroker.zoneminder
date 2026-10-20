@@ -52,9 +52,11 @@ export class ZoneMinder extends EventEmitter<ZoneMinderEvents> {
     private refreshToken: string | null = null;
     private refreshTokenExpires: number | null = null;
     private refreshTokenTimeout: ioBroker.Timeout | undefined;
+    private reauthTimeout: ioBroker.Timeout | undefined;
+    private authKeyInterval: ioBroker.Interval | undefined;
     private authUrl = '';
     private isAuth = false;
-    /** 0 = no re-auth tried yet, 1 = re-auth was already tried once. Never reset (was a module global before). */
+    /** Number of skipped calls without login since the last successful login */
     private tries = 0;
 
     // zmEventNotification server
@@ -102,8 +104,8 @@ export class ZoneMinder extends EventEmitter<ZoneMinderEvents> {
             this.connection = connection;
             this.adapter.log.debug('WEBSOCKET Client Connected');
             connection.on('error', error => {
+                // 'close' follows and reconnects, reconnecting here too would open a second client
                 this.adapter.log.debug(`WEBSOCKET: Error: client:${host} Message: ${error.toString()}`);
-                this.adapter.setTimeout(() => this.webSocket(), WEBSOCKET_RECONNECT_TIMER);
             });
             connection.on('close', () => {
                 this.adapter.log.debug('WEBSOCKET: closed');
@@ -114,7 +116,13 @@ export class ZoneMinder extends EventEmitter<ZoneMinderEvents> {
                 if (message.type === 'utf8') {
                     this.adapter.log.debug(`WEBSOCKET: ${message.utf8Data}'`);
 
-                    const data = JSON.parse(message.utf8Data) as EventServerMessage;
+                    let data: EventServerMessage;
+                    try {
+                        data = JSON.parse(message.utf8Data) as EventServerMessage;
+                    } catch {
+                        this.adapter.log.warn(`WEBSOCKET: invalid message: ${message.utf8Data}`);
+                        return;
+                    }
                     if (data.event === 'alarm') {
                         this.emit('alarm', data as AlarmMessage);
                     }
@@ -150,17 +158,15 @@ export class ZoneMinder extends EventEmitter<ZoneMinderEvents> {
     private async request<T>(path: string, post?: Record<string, string> | string | null): Promise<T | null> {
         this.adapter.log.debug('GET_ ');
         if (!this.accessToken && !this.authkey && !this.isAuth) {
-            if (this.tries === 0) {
-                // API call failed...
-                this.adapter.log.debug(`GET_ ${!this.accessToken} ${!this.accessToken} ${!this.isAuth}`);
-                void this.auth();
-                this.tries = 1;
-                return null;
+            // not logged in: skip the call and try to log in again
+            this.adapter.log.debug(`GET_ ${!this.accessToken} ${!this.authkey} ${!this.isAuth}`);
+            if (this.tries === 1) {
+                // report only once until the next successful login
+                this.adapter.log.error('Cant connect!!');
+                this.emit('error', 'Cant connect!!');
             }
-            // API call failed...
-            this.adapter.log.debug(`GET_ ins2 ${!this.accessToken} ${!this.accessToken} ${!this.isAuth}`);
-            this.adapter.log.error('Cant connect!!');
-            this.emit('error', 'Cant connect!!');
+            this.tries++;
+            void this.auth();
             return null;
         }
 
@@ -194,7 +200,12 @@ export class ZoneMinder extends EventEmitter<ZoneMinderEvents> {
                 }
             }
             const status = axios.isAxiosError(e) ? e.response?.status : undefined;
-            this.adapter.log.error(`${status} ${(e as Error).name} ${errName}`);
+            if (status) {
+                this.adapter.log.error(`${status} ${(e as Error).name} ${errName}`);
+            } else {
+                // no HTTP answer at all (host unreachable, DNS, TLS, ...)
+                this.adapter.log.error(`${(e as Error).name}: ${(e as Error).message}`);
+            }
             this.emit('error', e);
             return null;
         }
@@ -252,21 +263,29 @@ export class ZoneMinder extends EventEmitter<ZoneMinderEvents> {
                     (this.refreshTokenExpires - 60) * 1000,
                 );
             }
-            this.adapter.setTimeout(() => this.reauth(), (Number(this.accessTokenExpires) - 60) * 1000);
+            this.adapter.clearTimeout(this.reauthTimeout);
+            this.reauthTimeout = this.adapter.setTimeout(
+                () => this.reauth(),
+                (Number(this.accessTokenExpires) - 60) * 1000,
+            );
             this.authUrl = `token=${this.accessToken}`;
         } else if (json.credentials) {
             this.adapter.log.debug(`AUTH: get authkey ${json.credentials}`);
             this.authkey = json.credentials;
             this.authUrl = this.authkey;
 
-            // refresh data ever XX Minutes
-            this.adapter.setInterval(() => void this.auth(), APP_KEY_INTERVAL);
+            // refresh data ever XX Minutes. auth() runs again from this interval, so start it only once.
+            this.authKeyInterval ??= this.adapter.setInterval(() => void this.auth(), APP_KEY_INTERVAL);
         }
 
         if (this.authkey !== null || this.accessToken !== null) {
+            this.tries = 0;
             this.emit('connect', json);
             void this.monitors();
-            this.webSocket();
+            // auth() runs on every token renewal; the websocket reconnects by itself
+            if (!this.client) {
+                this.webSocket();
+            }
         } else {
             this.adapter.log.debug('AUTH: No auth data try again? ');
         }
@@ -274,7 +293,7 @@ export class ZoneMinder extends EventEmitter<ZoneMinderEvents> {
         this.isAuth = false;
     }
 
-    /** Reads all monitors. Returns `null` if the list could not be read or no monitor is enabled. */
+    /** Reads all monitors. Returns `null` if the list could not be read. */
     public async monitors(): Promise<MonitorsResponse | null> {
         const json = await this.request<MonitorsResponse>(`/api/monitors.json?&${this.authUrl}`);
         if (!json?.monitors) {
@@ -298,10 +317,6 @@ export class ZoneMinder extends EventEmitter<ZoneMinderEvents> {
             });
         }
         devices.sort(seqSort);
-        if (!devices.length) {
-            // The JS version called `callback(devices)` here, so the callers got no monitor list
-            return null;
-        }
         devices.forEach(item => (item.image += `&${this.authUrl}`));
         this.adapter.log.debug(`Devices${JSON.stringify(devices)}`);
         return json;
