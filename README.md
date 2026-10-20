@@ -39,8 +39,6 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
 - (bluefox) Fixed crashes (unreachable host, no enabled monitor), multiplying login timers and websocket connections, polling that stopped after one error
 - (copilot) Adapter requires admin >= 7.7.22 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now
-- (copilot) Adapter requires admin >= 7.6.17 now
-* (mcm1957) Adapter requires node.js >= 18 and js-controller >= 5 now
 * (mcm1957) Dependencies have been updated
 
 ### 0.3.3 (12.11.2019)
