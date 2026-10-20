@@ -62,7 +62,10 @@
     "mode": "daemon",
     "type": "alarm",
     "compact": true,
-    "materialize": true,
+    "adminUI": {
+      "config": "json"
+    },
+    "nogit": true,
     "dependencies": [
       {
         "js-controller": ">=6.0.11"

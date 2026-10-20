@@ -1,0 +1,10 @@
+{
+    "Zoneminder host": "Хост Zoneminder",
+    "e.g. http://zoneminder/zm": "например, http://zoneminder/zm",
+    "Username": "Имя пользователя",
+    "Password": "Пароль",
+    "Device interval (sec.)": "Интервал устройств (сек.)",
+    "Monitor interval (sec.)": "Интервал мониторов (сек.)",
+    "Enable ZmEventServer": "Включить ZmEventServer",
+    "Requires zmEventNotification on your ZoneMinder (wss://<host>:9000)": "Требуется zmEventNotification на вашем ZoneMinder (wss://<host>:9000)"
+}

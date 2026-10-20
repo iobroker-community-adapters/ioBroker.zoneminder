@@ -1,0 +1,77 @@
+{
+    "i18n": true,
+    "type": "panel",
+    "items": {
+        "_logo": {
+            "type": "staticImage",
+            "src": "zoneminder.png",
+            "style": { "width": "64px" },
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
+        },
+        "host": {
+            "newLine": true,
+            "type": "text",
+            "label": "Zoneminder host",
+            "help": "e.g. http://zoneminder/zm",
+            "xs": 12,
+            "sm": 12,
+            "md": 4,
+            "lg": 4,
+            "xl": 4
+        },
+        "user": {
+            "type": "text",
+            "label": "Username",
+            "xs": 12,
+            "sm": 6,
+            "md": 3,
+            "lg": 3,
+            "xl": 3
+        },
+        "password": {
+            "type": "password",
+            "label": "Password",
+            "xs": 12,
+            "sm": 6,
+            "md": 3,
+            "lg": 3,
+            "xl": 3
+        },
+        "pollingMon": {
+            "newLine": true,
+            "type": "number",
+            "label": "Device interval (sec.)",
+            "min": 1,
+            "xs": 12,
+            "sm": 6,
+            "md": 2,
+            "lg": 2,
+            "xl": 2
+        },
+        "pollingMonState": {
+            "type": "number",
+            "label": "Monitor interval (sec.)",
+            "min": 1,
+            "xs": 12,
+            "sm": 6,
+            "md": 2,
+            "lg": 2,
+            "xl": 2
+        },
+        "zmEvent": {
+            "newLine": true,
+            "type": "checkbox",
+            "label": "Enable ZmEventServer",
+            "help": "Requires zmEventNotification on your ZoneMinder (wss://<host>:9000)",
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
+        }
+    }
+}
