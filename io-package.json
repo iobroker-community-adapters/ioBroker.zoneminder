@@ -75,6 +75,8 @@
     "mode": "daemon",
     "type": "alarm",
     "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
     "adminUI": {
       "config": "json"
     },
