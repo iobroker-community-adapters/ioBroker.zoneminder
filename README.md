@@ -32,7 +32,7 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.0.0 (2026-10-20)
 - (bluefox) The adapter was refactored to TypeScript and JsonConfig
 - (bluefox) Breaking change: Node.js >= 22 is required now
 - (bluefox) `request` / `request-promise` were replaced by `axios`
