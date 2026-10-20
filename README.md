@@ -38,6 +38,7 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
 - (bluefox) The adapter was refactored to TypeScript and JsonConfig
 - (bluefox) Breaking change: Node.js >= 22 is required now
 - (bluefox) `request` / `request-promise` were replaced by `axios`
+- (bluefox) Fixed crashes (unreachable host, no enabled monitor), multiplying login timers and websocket connections, polling that stopped after one error
 - (copilot) Adapter requires admin >= 7.7.22 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now
 - (copilot) Adapter requires admin >= 7.6.17 now
