@@ -10,8 +10,6 @@
 
 [![NPM](https://nodei.co/npm/iobroker.zoneminder.png?downloads=true)](https://nodei.co/npm/iobroker.zoneminder/)
 
-**Tests:**: [![Travis-CI](http://img.shields.io/travis/iobroker-community-adapters/ioBroker.zoneminder/master.svg)](https://travis-ci.org/iobroker-community-adapters/ioBroker.zoneminder)
-
 ## zoneminder adapter for ioBroker
 
 Connection to your Zoneminder.
