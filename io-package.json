@@ -92,6 +92,12 @@
       }
     ]
   },
+  "protectedNative": [
+    "password"
+  ],
+  "encryptedNative": [
+    "password"
+  ],
   "native": {
     "host": "http://zoneminder/zm",
     "user": "admin",
