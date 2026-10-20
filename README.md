@@ -15,12 +15,12 @@
 Connection to your Zoneminder.
 
 ## Getting started
-Type in your host e.g. 'http://zoneminder/zm' unchanged user and password is 'admin' if you dont have any authentification do not change user or password.
+Type in your host e.g. 'http://zoneminder/zm' unchanged user and password is 'admin' if you don't have any authentification do not change user or password.
 
 The device intervall is for checking new cameras and some basic information. The value is in seconds.
 The monitor intervall is for checking alerts it is also in seconds.
 
-If you want to get alert informations please install zmEventNotification to your zoneminder and enable it in the iobroker settings.
+If you want to get alert information please install zmEventNotification to your zoneminder and enable it in the iobroker settings.
 
 ### Zoneminder-Settings
 To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS in Settings
@@ -45,14 +45,17 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
 
 ### 0.3.3 (12.11.2019)
 * (MeisterTR) error fixes, fix login error, fixes for latest
-* (MeisterTR) add ZmEvents
-* (MeisterTR) Select moniorfunction and disable/enable monitor
+* (MeisterTR) added ZmEvents
+* (MeisterTR) Selected monitor function and disabled/enabled monitor
+
 ### 0.2.1
-* (MeisterTR) add info states
-* (MeisterTR) add camera-link with auth-key
-* (MeisterTR) cange video link
+* (MeisterTR) added info states
+* (MeisterTR) added camera-link with auth-key
+* (MeisterTR) changed video link
+
 ### 0.1.0
 * (MeisterTR) First running version
+
 ### 0.0.1
 * (MeisterTR) initial release
 
