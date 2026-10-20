@@ -1,6 +1,6 @@
 {
   "name": "iobroker.zoneminder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connection to your Zoneminder",
   "author": "MeisterTR <meistertr.smarthome@gmail.com>",
   "contributors": [

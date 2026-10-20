@@ -35,7 +35,7 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.0.1 (2026-10-20)
 - (mcm1957) IMPORTANT: password must be reentered once to to added encryption
 - (copilot) Adapter requires admin >= 7.7.22 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now
@@ -60,6 +60,7 @@ To get camera-url link work with user and pw you have to deselect AUTH_HASH_IPS 
 
 ### 0.0.1
 * (MeisterTR) initial release
+
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
