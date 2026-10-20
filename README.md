@@ -10,6 +10,9 @@
 
 [![NPM](https://nodei.co/npm/iobroker.zoneminder.png?downloads=true)](https://nodei.co/npm/iobroker.zoneminder/)
 
+> [!IMPORTANT]
+> This adapter cannot be installed from github
+
 ## zoneminder adapter for ioBroker
 
 Connection to your Zoneminder.
